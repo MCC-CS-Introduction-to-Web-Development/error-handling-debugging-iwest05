@@ -1,0 +1,86 @@
+type Query {
+  albums(options: PageQueryOptions): AlbumsPage
+  album(id: ID!): Album
+}
+
+type Album {
+  id: ID
+  title: String
+  user: User
+}
+
+type User {
+  id: ID
+  name: String
+  username: String
+  email: String
+}
+
+type AlbumsPage {
+  data: [Album]
+  links: PaginationLinks
+  meta: PageMetadata
+}
+
+type PaginationLinks {
+  first: PageLimitPair
+  prev: PageLimitPair
+  next: PageLimitPair
+  last: PageLimitPair
+}
+
+type PageLimitPair {
+  page: Int
+  limit: Int
+}
+
+type PageMetadata {
+  totalCount: Int
+}
+
+input PageQueryOptions {
+  paginate: PaginateOptions
+  slice: SliceOptions
+  sort: [SortOptions]
+  operators: [OperatorOptions]
+  search: SearchOptions
+}
+
+input PaginateOptions {
+  page: Int
+  limit: Int
+}
+
+input SliceOptions {
+  start: Int
+  end: Int
+  limit: Int
+}
+
+input SortOptions {
+  field: String
+  order: SortOrderEnum
+}
+
+enum SortOrderEnum {
+  ASC
+  DESC
+}
+
+input OperatorOptions {
+  kind: OperatorKindEnum
+  field: String
+  value: String
+}
+
+enum OperatorKindEnum {
+  GTE
+  LTE
+  NE
+  LIKE
+  NOT_LIKE
+}
+
+input SearchOptions {
+  q: String
+}
